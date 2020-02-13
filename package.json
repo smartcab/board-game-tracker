@@ -17,6 +17,7 @@
     "express": "^4.17.1",
     "express-winston": "^4.0.2",
     "glob": "^7.1.6",
+    "mongoose": "^5.8.13",
     "winston": "^3.2.1"
   }
 }

@@ -1,7 +1,6 @@
 const port = process.env.PORT || 3000
 const logger = require('./logger.js').logger
-// const database = require('./database/createDatabase.js')({ logger })
-const database = null;
+const database = require('./database/createDatabase.js')({ logger })
 const app = require('./app/createExpressApp.js')({logger, database})
 const server = require('http').createServer()
 server
@@ -9,7 +8,6 @@ server
     .on('listening', function() {
         const addr = this.address()
         const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`
-        // console.log(logger)
         logger.info(`Listening on ${bind}`)
     })
     .on('error', function(error) {

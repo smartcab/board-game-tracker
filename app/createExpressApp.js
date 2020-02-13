@@ -16,7 +16,6 @@ module.exports = ({ logger, database }) => express()
     req.db = database
     return next()
 })
-.use(express.static('./public'))
 .use('/api', router)
 .use((error, req, res, next) => {
     logger.error(error, error)
