@@ -9,14 +9,20 @@ module.exports = Router({mergeParams: true})
             minNumPlayers: req.body.minNumPlayers,
             maxNumPlayers: req.body.maxNumPlayers
         })
-        await req.db.Library.findOne({_id:req.params.libraryId}).then(library => {
-            library.games.push(game);
-            library.save();
-        });
-        const location = `${req.base}${req.originalUrl}/${game.id}`
-        res.setHeader('Location', location)
-        res.status(201).send(game)
-    } catch(error) {
-        next(error)
+        await game.save(function(err, game){
+            if (err) throw err;
+            req.db.Library.findOne({_id:req.params.libraryId}).exec(function(err, library){
+                if (err) throw err;
+                library.games.push(game.id);
+                library.save(function(err, result) {
+                    if (err) throw err;
+                    res.setHeader('Location', `${req.base}${req.originalUrl}/${game.id}`);
+                    res.status(201).send(game);
+                })
+
+            })
+        })
+    } catch (error) {
+        next(error);
     }
 })

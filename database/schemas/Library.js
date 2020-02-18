@@ -1,8 +1,7 @@
 const mongoose = require('mongoose')
-const gameSchema = require('./Game')
 const librarySchema = mongoose.Schema({
     name: String,
-    games: [gameSchema]
+    games: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Game' }]
 })
 
 module.exports = librarySchema
